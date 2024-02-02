@@ -11,12 +11,22 @@ clock = pygame.time.Clock()
 # Set up colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
 # Set up the square
 square_size = 80
 square_color = WHITE
 square_position_x = 0
 square_position_y = 0
+
+# player
+player_x = 120
+player_y = 120
+player = pygame.image.load('player.png').convert_alpha()
+player = pygame.transform.rotozoom(player, 0, 0.1)
+player_rect = player.get_rect(midbottom = (player_x, player_y))
+
+
 
 level_map = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
              1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -34,7 +44,15 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-
+        if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                     player_rect.left -= 2
+                if event.key == pygame.K_s:
+                     player_rect.bottom += 2
+                if event.key == pygame.K_d:
+                     player_rect.right += 2
+                if event.key == pygame.K_w:
+                     player_rect.top -= 2
     screen.fill((0,0,0))
     count = 0
     for row in range(9):
@@ -44,5 +62,6 @@ while True:
                 y = row * (square_size)
                 pygame.draw.rect(screen, WHITE, (x, y, square_size - 5, square_size - 5))
             count += 1
-        
+    # pygame.draw.circle(screen, RED, (500, 500), 25)
+    screen.blit(player, player_rect)
     pygame.display.update()
